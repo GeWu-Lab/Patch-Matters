@@ -37,7 +37,9 @@ Following [Ovdet](https://github.com/wusize/ovdet) to download weights and files
 ### Run
 
 ```python
-python ovdet/generate_four_box.py --image_folder 'your image folder' --four_box_save_path 'four_box.json' --object_box_save_path 'object_box.json'
+python divide/generate_four_box.py --image_folder 'your image folder' --four_box_save_path 'four_box.json' --object_box_save_path 'object_box.json'
+
+python ovdet/get_main_box.py --image_folder 'your image folder' --object_box_save_path 'object_box.json' --main_box_save_path 'main_box.json'
 
 python ovdet/get_main_box.py --image_folder 'your image folder' --object_box_save_path 'object_box.json' --main_box_save_path 'main_box.json'
 ```

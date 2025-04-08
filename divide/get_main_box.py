@@ -219,7 +219,7 @@ if __name__ == '__main__':
     arg.add_argument('--main_box_save_path', type=str, help='main box save path')
     arg.add_argument('--llm_path', type=str, help='LLM model', default='cache/huggingface/hub/mate-llama-3.1-8b-instruct')
     arg.add_argument('--vlm_model_path', type=str, help='vlm model path', default='Salesforce/blip2-opt-2.7b')
-    arg.add_argument('--visual_save_folder', type=str, help='Save Visual Image folder', default='ovdet/main_box_visual')
+    arg.add_argument('--visual_save_folder', type=str, help='Save Visual Image folder', default='divide/main_box_visual')
     args = arg.parse_args()
 
 

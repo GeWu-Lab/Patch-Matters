@@ -28,8 +28,8 @@ seed_torch(0)
 
 if __name__ == '__main__':
     arg = argparse.ArgumentParser()
-    arg.add_argument('--model_config_file', type=str, default='ovdet/configs/baron/ov_coco/baron_kd_faster_rcnn_r50_fpn_syncbn_90kx2.py')
-    arg.add_argument('--checkpoint_file', type=str, default='ovdet/checkpoints/this_repo_R-50-FPN_CLIP_iter_90000.pth')
+    arg.add_argument('--model_config_file', type=str, default='divide/configs/baron/ov_coco/baron_kd_faster_rcnn_r50_fpn_syncbn_90kx2.py')
+    arg.add_argument('--checkpoint_file', type=str, default='divide/checkpoints/this_repo_R-50-FPN_CLIP_iter_90000.pth')
     arg.add_argument('--image_folder', type=str, help='Image folder')
     arg.add_argument('--four_box_save_path', type=str, help='four box save path')
     arg.add_argument('--object_box_save_path', type=str, help='object detect save path')
