@@ -1585,9 +1585,9 @@ class fusion:
             
                 # image_src = Image.open('/data/users/ruotian_peng/dataset/mmvp/MMVP Images/'+data['image'].split('/')[-1]).convert('RGB')
     
-        image_src=Image.open('/home/haiying_he/image-textualization/benchmark/DenseCap_Metrics/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]).convert('RGB')
+        image_src=Image.open('../coco_image/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]).convert('RGB')
         width, height = image_src.size
-        main_key='/home/haiying_he/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]
+        main_key='../coco_image/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]
         main_box=image_src.crop(image_idx['main_box'])
         dict_image={'5':main_box}
         
@@ -1693,9 +1693,9 @@ class fusion:
             
                 # image_src = Image.open('/data/users/ruotian_peng/dataset/mmvp/MMVP Images/'+data['image'].split('/')[-1]).convert('RGB')
             
-        image_src=Image.open('/home/haiying_he/image-textualization/benchmark/DenseCap_Metrics/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]).convert('RGB')
+        image_src=Image.open('../coco_image/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]).convert('RGB')
         width, height = image_src.size
-        main_key='/home/haiying_he/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]
+        main_key='../coco_image/coco_sample_data_Image_Textualization/'+image_idx['image'].split('/')[-1]
         four_box = image_idx['four_box']
         left_top = image_src.crop(four_box[0])
         right_top = image_src.crop(four_box[1])
@@ -1926,39 +1926,11 @@ class fusion:
             temp_merge=self.batch_merge_sameregion(region_descriptions,batch_supplement_all)
             for combined_merge in range(len(region_descriptions)-1):
                 temp_merge_list.append(temp_merge[combined_merge].outputs[0].text)
-            # print(temp_merge_list)
-            # if len(temp_merge_list)==4:
-            temp_merge_five=[[width,height],global_modified,region_locations,temp_merge_list,image_idx['image']]
-            result_five_list=[]
-            # print("len:",len(temp_merge_five))
-            # print("len:",len(temp_merge_five))
-            # print("len:",len(temp_merge_five))
-            return temp_merge_five
-            # if len(temp_merge_five)==10:
 
-            #     complete_merge=self.batch_merge_five(temp_merge_five)
-            #     for num_complete in range(len(temp_merge_five)):
-            #         result_json={}
-            #         result_json['image']=temp_merge_five[num_complete][4]
-            #         result_json['description']=complete_merge[num_complete].outputs[0].text
-            #         result_five_list.appedn(result_json)
-                
-            #     temp_merge_five=[]
-            #     return result_five_list
-            # elif num=='end': 
-            #     complete_merge=self.batch_merge_five(temp_merge_five)
-            #     for num_complete in range(len(temp_merge_five)):
-            #         result_json={}
-            #         result_json['image']=temp_merge_five[num_complete][4]
-            #         result_json['description']=complete_merge[num_complete].outputs[0].text
-            #         result_five_list.appedn(result_json)
-                
-            #     temp_merge_five=[]
-            #     return result_five_list
-            # else:
-            #     return temp_merge_five
-            # complete_merge=self.merge_five([width,height],global_modified, region_locations[0], temp_merge_list[0],  region_locations[1], temp_merge_list[1], region_locations[2], temp_merge_list[2],  region_locations[3], temp_merge_list[3])
-            
+            temp_merge_five=[[width,height],global_modified,region_locations,temp_merge_list,image_idx['image']]
+
+            return temp_merge_five
+
         else:
             
             temp_merge_list=[]

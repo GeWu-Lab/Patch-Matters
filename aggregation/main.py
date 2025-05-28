@@ -25,11 +25,9 @@ import os
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
 # Setup folder2_path based on the relative path
-folder2_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '/data/users/ruotian_peng/LLaVA-main/llava/serve'))
 import time
-# Add folder2 to sys.path
-sys.path.insert(0, folder2_path)
-from image_caption import ImageCaptionGenerator
+
+
 class BLIPScore():
     def __init__(self):
         self.name = 'blip2_image_text_matching'
@@ -76,10 +74,7 @@ class BLIPScore():
 def get_parser():
     parser = argparse.ArgumentParser(description="Process images and generate descriptions using Llava model")
     parser.add_argument(
-        "--input_spatial", type=str, default='/home/haiying_he/image-textualization/benchmark/DenseCap_Metrics/sample_result_coco200.json',
-    )
-    parser.add_argument(
-        "--input_semantic", type=str, default='/home/haiying_he/dataset/coco2017_main_box.json',
+        "--input_data", type=str, default='/Patch-Matters/aggregation/data/',
     )
     parser.add_argument(
         "--output_folder", type=str, default='./data', 
@@ -102,24 +97,16 @@ def get_parser():
 def process_images(args):
     # Setup model and processor
     start_time = time.time()
-    llama2_7b_chat_hf="/data/users/ruotian_peng/pretrain/llama-3.1-8b-instruct"
-    llm = LLM(model=llama2_7b_chat_hf,max_model_len=40000,tensor_parallel_size=1,gpu_memory_utilization=0.87,dtype='float16')
-    tokenizer = AutoTokenizer.from_pretrained(llama2_7b_chat_hf)
+    llama3_7b_chat_hf="meta-llama/Llama-3.1-8B-Instruct"
+    llm = LLM(model=llama3_7b_chat_hf,max_model_len=40000,tensor_parallel_size=1,gpu_memory_utilization=0.87,dtype='float16')
+    tokenizer = AutoTokenizer.from_pretrained(llama3_7b_chat_hf)
     blip_model = BLIPScore()
     error = blip_model.load_model()
-
+    print(error)
     import json
-    with open('/data/users/ruotian_peng/Patch_matter/fusion/new_global/new_global.json', 'r') as f:
+    with open(args.input_data, 'r') as f:
         data_image = json.load(f)
-    # json_path='/data/users/ruotian_peng/Patch_matter/fusion/all.json'
-    # with open(json_path, 'r') as f:
-    #     data_image = json.load(f)
-        # image_idx=3
-    # with open('/home/haiying_he/image-textualization/benchmark/DenseCap_Metrics/sample_result_coco200.json', 'r', encoding='utf-8') as file:
-    #     json_data = json.load(file)
-    # path='/home/haiying_he/dataset/coco2017_main_box.json'
-    # with open(path, 'r', encoding='utf-8') as file_main:
-    #     json_main = json.load(file_main)
+
 
     # Calculate the chunk size and slice the data accordingly
     total_images = len(data_image)
@@ -175,30 +162,7 @@ def process_images(args):
         json.dump(temp_json, json_file, indent=4)
     print(f"Results for chunk {args.chunk_index} saved to {output_file}")
 
-#     folder_path = '/data/users/ruotian_peng/Patch_matter/fusion/new_global'
 
-#     # 获取该文件夹下所有json文件
-#     json_files = [f for f in os.listdir(folder_path) if f.endswith('.json')]
-
-#     # 用来存储合并后的数据
-#     merged_data = []
-
-#     # 遍历每个文件，将其内容合并
-#    # 遍历每个文件，将其内容合并到同一个列表
-#     for file in json_files:
-#         file_path = os.path.join(folder_path, file)
-#         with open(file_path, 'r', encoding='utf-8') as f:
-#             data = json.load(f)
-#             if isinstance(data, list):  # 确保每个文件的数据是一个列表
-#                 merged_data.extend(data)  # 将该列表的数据合并到merged_data
-
-
-#     # 保存合并后的数据到一个新的json文件
-#     output_file = '/data/users/ruotian_peng/Patch_matter/fusion/new_global/new_global.json'
-#     with open(output_file, 'w', encoding='utf-8') as f:
-#         json.dump(merged_data, f, ensure_ascii=False, indent=4)
-
-#     print(f"合并完成，结果已保存到 {output_file}")
     num=start_idx+1
     with open(output_file, 'r') as f:
         data_image = json.load(f)
@@ -207,13 +171,16 @@ def process_images(args):
     # print(len(data_image[0]))
     for i, key in tqdm(enumerate(data_image), total=end_idx - start_idx):
         # print(key)
-        print(num)
+        # print("num",num)
+        # print("num-start_idx",num-start_idx)
+        # print("end_idx - start_idx",end_idx - start_idx)
         # print(key)
         if num-start_idx==end_idx - start_idx:
-           
+            print("end")
             temp=Fusion.merge(key,'end')
+            print("temp",temp)
             if type(temp)==list:
-            
+                batch_merge_five.append(temp)
                 complete_merge=Fusion.batch_merge_five(batch_merge_five)
                 for num_complete in range(len(batch_merge_five)):
                         result_json={}
@@ -224,6 +191,12 @@ def process_images(args):
             elif type(temp) == dict:
             
                 result.append(temp)
+                complete_merge=Fusion.batch_merge_five(batch_merge_five)
+                for num_complete in range(len(batch_merge_five)):
+                        result_json={}
+                        result_json['image']=batch_merge_five[num_complete][4]
+                        result_json['description']=complete_merge[num_complete].outputs[0].text
+                        result.append(result_json)
         else:
             num+=1
             temp=Fusion.merge(key,'not end')

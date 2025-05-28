@@ -13,16 +13,16 @@ do
     
     # Set CUDA_VISIBLE_DEVICES to assign a unique GPU to each process
     CUDA_VISIBLE_DEVICES=$gpu_id nohup python3 multi_process.py \
-        --input_file divide_result_file \
-        --output_folder generate_result_folder  \
+        --input_file /test_data/did_bench.json \
+        --output_folder /description_generate \
         --chunk_index $chunk_index \
         --chunk_num $chunk_num \
         --node_index $node_index \
-        --node_num $node_num > /home/pengruotian/patch_matter/description/test_$chunk_index.log 2>&1 &
+        --node_num $node_num > description/test_$chunk_index.log 2>&1 &
 done
 
 wait
 
-python3 /home/pengruotian/patch_matter/description/combine.py \
-    --folder_path above_output_folder \
-    --output_file description_output.json
+python3 /description_generate/combine.py \
+    --folder_path /description_generate \
+    --output_file /description_generate/description_output.json

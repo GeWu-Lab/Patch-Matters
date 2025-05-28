@@ -69,7 +69,7 @@ def process_images(args):
     for i, key in tqdm(enumerate(data_image[start_idx:end_idx]), total=end_idx - start_idx):
         temp = {}
         img_src = key['image']
-        img_src = '/home/pengruotian/patch_matter/coco_sample_data_Image_Textualization/'+key['image'].split('/')[-1]
+        img_src = '../coco_image/coco_sample_data_Image_Textualization/'+key['image'].split('/')[-1]
         prompt = "Describe this image in detail."
     
 
