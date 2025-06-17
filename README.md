@@ -85,7 +85,7 @@ First, you need to prepare the generated caption json file and reference caption
 
 ### DID-Bench and D2I-Bench
 To avoid potential conflicts, you can create a new environment following [image-textualization](https://github.com/sterzhang/image-textualization). 
-After that, you can directly test the [DID-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/DenseCap_Metrics/eval_DenseCap.py) and [D2I-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/t2iGen/eval_t2igen.py)
+After that, you can directly test the [DID-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/DenseCap_Metrics/eval_DenseCap.py) and [D2I-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/t2iGen/eval_t2igen.py) following this python file.
 
 ### DetailCaps Benchmark
 Following [CAPTURE](https://github.com/foundation-multimodal-models/CAPTURE) to install this metric.
