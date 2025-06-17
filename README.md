@@ -80,6 +80,33 @@ bash aggregation/run.sh
 
 **Note:** Please ensure that the paths to your data (patch JSON files, COCO images, etc.) and models are correctly configured within the `run.sh` scripts or their underlying Python scripts.
 
+## Validation
+First, you need to prepare the generated caption json file and reference caption json file.
+
+### DID-Bench and D2I-Bench
+To avoid potential conflicts, you can create a new environment following [image-textualization](https://github.com/sterzhang/image-textualization). 
+After that, you can directly test the [DID-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/DenseCap_Metrics/eval_DenseCap.py) and [D2I-Bench](https://github.com/sterzhang/image-textualization/blob/main/benchmark/t2iGen/eval_t2igen.py)
+
+### DetailCaps Benchmark
+Following [CAPTURE](https://github.com/foundation-multimodal-models/CAPTURE) to install this metric.
+After that, you just need to run your code like:
+
+```python
+from capture_metric.capture import CAPTURE
+refs_captions = {
+  <sample_key>: [ref_0, ref_1, ...],
+  ...
+}
+preds_captions = {
+  <sample_key>: [pred_caption],
+  ...
+}
+
+evaluator = CAPTURE()
+score = evaluator.compute_score(refs_captions, preds_captions)
+print(f"CAPTURE score: {score}")
+```
+
 ## Citation
 If you find this work useful, please consider citing it.
 
